@@ -1,15 +1,10 @@
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.AppendToResponse;
-import com.uwetrottmann.tmdb2.entities.Credits;
-import com.uwetrottmann.tmdb2.entities.ExternalIds;
-import com.uwetrottmann.tmdb2.entities.Images;
-import com.uwetrottmann.tmdb2.entities.TvSeason;
-import com.uwetrottmann.tmdb2.entities.Videos;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface TvSeasonsService {
 
@@ -21,7 +16,7 @@ public interface TvSeasonsService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{id}/season/{season_number}")
-    Call<TvSeason> season(
+    Observable<TvSeason> season(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Query("language") String language,
@@ -34,7 +29,7 @@ public interface TvSeasonsService {
      * @param showId A themoviedb id.
      */
     @GET("tv/{id}/season/{season_number}/credits")
-    Call<Credits> credits(
+    Observable<Credits> credits(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber
     );
@@ -46,7 +41,7 @@ public interface TvSeasonsService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/season/{season_number}/external_ids")
-    Call<ExternalIds> externalIds(
+    Observable<ExternalIds> externalIds(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Query("language") String language
@@ -59,7 +54,7 @@ public interface TvSeasonsService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/season/{season_number}/images")
-    Call<Images> images(
+    Observable<Images> images(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Query("language") String language
@@ -72,7 +67,7 @@ public interface TvSeasonsService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/season/{season_number}/videos")
-    Call<Videos> videos(
+    Observable<Videos> videos(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Query("language") String language

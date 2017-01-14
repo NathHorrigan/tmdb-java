@@ -1,22 +1,10 @@
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.AppendToResponse;
-import com.uwetrottmann.tmdb2.entities.Credits;
-import com.uwetrottmann.tmdb2.entities.Images;
-import com.uwetrottmann.tmdb2.entities.ListResultsPage;
-import com.uwetrottmann.tmdb2.entities.Movie;
-import com.uwetrottmann.tmdb2.entities.MovieAlternativeTitles;
-import com.uwetrottmann.tmdb2.entities.MovieKeywords;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.entities.ReleaseDate;
-import com.uwetrottmann.tmdb2.entities.ReleaseDatesResults;
-import com.uwetrottmann.tmdb2.entities.ReviewResultsPage;
-import com.uwetrottmann.tmdb2.entities.Translations;
-import com.uwetrottmann.tmdb2.entities.Videos;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface MoviesService {
 
@@ -28,7 +16,7 @@ public interface MoviesService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("movie/{id}")
-    Call<Movie> summary(
+    Observable<Movie> summary(
             @Path("id") int tmdbId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
@@ -41,7 +29,7 @@ public interface MoviesService {
      * @param country <em>Optional.</em> ISO 3166-1 code.
      */
     @GET("movie/{id}/alternative_titles")
-    Call<MovieAlternativeTitles> alternativeTitles(
+    Observable<MovieAlternativeTitles> alternativeTitles(
             @Path("id") int tmdbId,
             @Query("country") String country
     );
@@ -52,7 +40,7 @@ public interface MoviesService {
      * @param tmdbId TMDb id.
      */
     @GET("movie/{id}/credits")
-    Call<Credits> credits(
+    Observable<Credits> credits(
             @Path("id") int tmdbId
     );
 
@@ -63,7 +51,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{id}/images")
-    Call<Images> images(
+    Observable<Images> images(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -74,7 +62,7 @@ public interface MoviesService {
      * @param tmdbId TMDb id.
      */
     @GET("movie/{id}/keywords")
-    Call<MovieKeywords> keywords(
+    Observable<MovieKeywords> keywords(
             @Path("id") int tmdbId
     );
 
@@ -89,7 +77,7 @@ public interface MoviesService {
      * @param tmdbId TMDb id.
      */
     @GET("movie/{id}/release_dates")
-    Call<ReleaseDatesResults> releaseDates(
+    Observable<ReleaseDatesResults> releaseDates(
             @Path("id") int tmdbId
     );
 
@@ -100,7 +88,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{id}/videos")
-    Call<Videos> videos(
+    Observable<Videos> videos(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -112,7 +100,7 @@ public interface MoviesService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("movie/{id}/translations")
-    Call<Translations> translations(
+    Observable<Translations> translations(
             @Path("id") int tmdbId,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
@@ -125,7 +113,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{id}/similar")
-    Call<MovieResultsPage> similar(
+    Observable<MovieResultsPage> similar(
             @Path("id") int tmdbId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -139,7 +127,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{id}/reviews")
-    Call<ReviewResultsPage> reviews(
+    Observable<ReviewResultsPage> reviews(
             @Path("id") int tmdbId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -153,7 +141,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{id}/lists")
-    Call<ListResultsPage> lists(
+    Observable<ListResultsPage> lists(
             @Path("id") int tmdbId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -163,7 +151,7 @@ public interface MoviesService {
      * Get the latest movie id.
      */
     @GET("movie/latest")
-    Call<Movie> latest();
+    Observable<Movie> latest();
 
     /**
      * Get the list of upcoming movies. This list refreshes every day. The maximum number of items this list will
@@ -173,7 +161,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/upcoming")
-    Call<MovieResultsPage> upcoming(
+    Observable<MovieResultsPage> upcoming(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -186,7 +174,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/now_playing")
-    Call<MovieResultsPage> nowPlaying(
+    Observable<MovieResultsPage> nowPlaying(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -198,7 +186,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/popular")
-    Call<MovieResultsPage> popular(
+    Observable<MovieResultsPage> popular(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -211,7 +199,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/top_rated")
-    Call<MovieResultsPage> topRated(
+    Observable<MovieResultsPage> topRated(
             @Query("page") Integer page,
             @Query("language") String language
     );

@@ -1,9 +1,9 @@
 package com.uwetrottmann.tmdb2.services;
 
 import com.uwetrottmann.tmdb2.entities.GenreResults;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface GenreService {
 
@@ -13,7 +13,7 @@ public interface GenreService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("genre/movie/list")
-    Call<GenreResults> movie(
+    Observable<GenreResults> movie(
             @Query("language") String language
     );
 
@@ -23,7 +23,7 @@ public interface GenreService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("genre/tv/list")
-    Call<GenreResults> tv(
+    Observable<GenreResults> tv(
             @Query("language") String language
     );
 }

@@ -1,19 +1,10 @@
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.AppendToResponse;
-import com.uwetrottmann.tmdb2.entities.TvContentRatings;
-import com.uwetrottmann.tmdb2.entities.Credits;
-import com.uwetrottmann.tmdb2.entities.ExternalIds;
-import com.uwetrottmann.tmdb2.entities.Images;
-import com.uwetrottmann.tmdb2.entities.TvAlternativeTitles;
-import com.uwetrottmann.tmdb2.entities.TvKeywords;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
-import com.uwetrottmann.tmdb2.entities.TvShowComplete;
-import com.uwetrottmann.tmdb2.entities.Videos;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface TvService {
 
@@ -25,7 +16,7 @@ public interface TvService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{id}")
-    Call<TvShowComplete> tv(
+    Observable<TvShowComplete> tv(
             @Path("id") int tmdbId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
@@ -37,7 +28,7 @@ public interface TvService {
      * @param tmdbId A themoviedb id.
      */
     @GET("tv/{id}/alternative_titles")
-    Call<TvAlternativeTitles> alternativeTitles(
+    Observable<TvAlternativeTitles> alternativeTitles(
             @Path("id") int tmdbId
     );
 
@@ -49,7 +40,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/credits")
-    Call<Credits> credits(
+    Observable<Credits> credits(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -60,7 +51,7 @@ public interface TvService {
      * @param tmbdId A themoviedb id
      */
     @GET("tv/{id}/content_ratings")
-    Call<TvContentRatings> content_ratings(
+    Observable<TvContentRatings> content_ratings(
             @Path("id") int tmbdId
     );
 
@@ -71,7 +62,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/external_ids")
-    Call<ExternalIds> externalIds(
+    Observable<ExternalIds> externalIds(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -83,7 +74,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/images")
-    Call<Images> images(
+    Observable<Images> images(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -94,7 +85,7 @@ public interface TvService {
      * @param tmdbId A themoviedb id.
      */
     @GET("tv/{id}/keywords")
-    Call<TvKeywords> keywords(
+    Observable<TvKeywords> keywords(
             @Path("id") int tmdbId
     );
 
@@ -106,7 +97,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/similar")
-    Call<TvResultsPage> similar(
+    Observable<TvResultsPage> similar(
             @Path("id") int tmdbId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -119,7 +110,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{id}/videos")
-    Call<Videos> videos(
+    Observable<Videos> videos(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -128,7 +119,7 @@ public interface TvService {
      * Get the latest TV show id.
      */
     @GET("tv/latest")
-    Call<TvShowComplete> latest();
+    Observable<TvShowComplete> latest();
 
     /**
      * Get the list of TV shows that are currently on the air. This query looks for any TV show that has an episode with
@@ -138,7 +129,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/on_the_air")
-    Call<TvResultsPage> onTheAir(
+    Observable<TvResultsPage> onTheAir(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -151,7 +142,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/airing_today")
-    Call<TvResultsPage> airingToday(
+    Observable<TvResultsPage> airingToday(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -164,7 +155,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/top_rated")
-    Call<TvResultsPage> topRated(
+    Observable<TvResultsPage> topRated(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -176,7 +167,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/popular")
-    Call<TvResultsPage> popular(
+    Observable<TvResultsPage> popular(
             @Query("page") Integer page,
             @Query("language") String language
     );

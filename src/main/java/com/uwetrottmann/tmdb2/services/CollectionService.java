@@ -18,10 +18,10 @@ package com.uwetrottmann.tmdb2.services;
 import com.uwetrottmann.tmdb2.entities.AppendToResponse;
 import com.uwetrottmann.tmdb2.entities.Collection;
 import com.uwetrottmann.tmdb2.entities.Images;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface CollectionService {
     /**
@@ -32,7 +32,7 @@ public interface CollectionService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("collection/{id}")
-    Call<Collection> summary(
+    Observable<Collection> summary(
             @Path("id") int tmdbId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
@@ -45,5 +45,5 @@ public interface CollectionService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("collection/{id}/images")
-    Call<Images> images(@Path("id") int tmdbId, @Query("language") String language);
+    Observable<Images> images(@Path("id") int tmdbId, @Query("language") String language);
 }

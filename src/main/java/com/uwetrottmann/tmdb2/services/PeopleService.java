@@ -17,16 +17,11 @@
 
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.Person;
-import com.uwetrottmann.tmdb2.entities.PersonCredits;
-import com.uwetrottmann.tmdb2.entities.PersonIds;
-import com.uwetrottmann.tmdb2.entities.PersonImages;
-import com.uwetrottmann.tmdb2.entities.PersonResultsPage;
-import com.uwetrottmann.tmdb2.entities.TaggedImagesResultsPage;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface PeopleService {
 
@@ -36,7 +31,7 @@ public interface PeopleService {
      * @param tmdbId TMDb id.
      */
     @GET("person/{id}")
-    Call<Person> summary(
+    Observable<Person> summary(
             @Path("id") int tmdbId
     );
 
@@ -47,7 +42,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{id}/movie_credits")
-    Call<PersonCredits> movieCredits(
+    Observable<PersonCredits> movieCredits(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -59,7 +54,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{id}/tv_credits")
-    Call<PersonCredits> tvCredits(
+    Observable<PersonCredits> tvCredits(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -71,7 +66,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{id}/combined_credits")
-    Call<PersonCredits> combinedCredits(
+    Observable<PersonCredits> combinedCredits(
             @Path("id") int tmdbId,
             @Query("language") String language
     );
@@ -82,7 +77,7 @@ public interface PeopleService {
      * @param tmdbId TMDb id.
      */
     @GET("person/{id}/external_ids")
-    Call<PersonIds> externalIds(
+    Observable<PersonIds> externalIds(
             @Path("id") int tmdbId
     );
 
@@ -90,7 +85,7 @@ public interface PeopleService {
      * Get the images for a specific person id.
      */
     @GET("person/{id}/images")
-    Call<PersonImages> images(
+    Observable<PersonImages> images(
             @Path("id") int tmdbId
     );
 
@@ -103,7 +98,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{id}/tagged_images")
-    Call<TaggedImagesResultsPage> taggedImages(
+    Observable<TaggedImagesResultsPage> taggedImages(
             @Path("id") int tmdbId, @Query("page") Integer page, @Query("language") String language
     );
 
@@ -111,7 +106,7 @@ public interface PeopleService {
      * Get the list of popular people on The Movie Database. This list refreshes every day.
      */
     @GET("person/popular")
-    Call<PersonResultsPage> popular(
+    Observable<PersonResultsPage> popular(
             @Query("page") Integer page
     );
 
@@ -119,6 +114,6 @@ public interface PeopleService {
      * Get the latest person id.
      */
     @GET("person/latest")
-    Call<Person> latest();
+    Observable<Person> latest();
 
 }

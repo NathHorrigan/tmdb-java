@@ -16,16 +16,11 @@
 
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.AppendToResponse;
-import com.uwetrottmann.tmdb2.entities.Credits;
-import com.uwetrottmann.tmdb2.entities.ExternalIds;
-import com.uwetrottmann.tmdb2.entities.Images;
-import com.uwetrottmann.tmdb2.entities.TvEpisode;
-import com.uwetrottmann.tmdb2.entities.Videos;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface TvEpisodesService {
 
@@ -37,7 +32,7 @@ public interface TvEpisodesService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{id}/season/{season_number}/episode/{episode_number}")
-    Call<TvEpisode> episode(
+    Observable<TvEpisode> episode(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Path("episode_number") int episodeNumber,
@@ -51,7 +46,7 @@ public interface TvEpisodesService {
      * @param showId A themoviedb id.
      */
     @GET("tv/{id}/season/{season_number}/episode/{episode_number}/credits")
-    Call<Credits> credits(
+    Observable<Credits> credits(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Path("episode_number") int episodeNumber
@@ -63,7 +58,7 @@ public interface TvEpisodesService {
      * @param showId A themoviedb id.
      */
     @GET("tv/{id}/season/{season_number}/episode/{episode_number}/external_ids")
-    Call<ExternalIds> externalIds(
+    Observable<ExternalIds> externalIds(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Path("episode_number") int episodeNumber
@@ -76,7 +71,7 @@ public interface TvEpisodesService {
      * @param showId A themoviedb id.
      */
     @GET("tv/{id}/season/{season_number}/episode/{episode_number}/images")
-    Call<Images> images(
+    Observable<Images> images(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Path("episode_number") int episodeNumber
@@ -88,7 +83,7 @@ public interface TvEpisodesService {
      * @param showId A themoviedb id.
      */
     @GET("tv/{id}/season/{season_number}/episode/{episode_number}/videos")
-    Call<Videos> videos(
+    Observable<Videos> videos(
             @Path("id") int showId,
             @Path("season_number") int seasonNumber,
             @Path("episode_number") int episodeNumber

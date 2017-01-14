@@ -1,14 +1,9 @@
 package com.uwetrottmann.tmdb2.services;
 
-import com.uwetrottmann.tmdb2.entities.CollectionResultsPage;
-import com.uwetrottmann.tmdb2.entities.CompanyResultsPage;
-import com.uwetrottmann.tmdb2.entities.KeywordResultsPage;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.entities.PersonResultsPage;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
-import retrofit2.Call;
+import com.uwetrottmann.tmdb2.entities.*;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import rx.Observable;
 
 public interface SearchService {
 
@@ -19,7 +14,7 @@ public interface SearchService {
      * @param page <em>Optional.</em> Minimum value is 1, expected value is an integer.
      */
     @GET("search/company")
-    Call<CompanyResultsPage> company(
+    Observable<CompanyResultsPage> company(
             @Query("query") String query,
             @Query("page") Integer page
     );
@@ -32,7 +27,7 @@ public interface SearchService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("search/collection")
-    Call<CollectionResultsPage> collection(
+    Observable<CollectionResultsPage> collection(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("language") String language
@@ -45,7 +40,7 @@ public interface SearchService {
      * @param page <em>Optional.</em> Minimum value is 1, expected value is an integer.
      */
     @GET("search/collection")
-    Call<KeywordResultsPage> keyword(
+    Observable<KeywordResultsPage> keyword(
             @Query("query") String query,
             @Query("page") Integer page
     );
@@ -65,7 +60,7 @@ public interface SearchService {
      * those wanting more of an "autocomplete" type search, set this option to 'ngram'.
      */
     @GET("search/movie")
-    Call<MovieResultsPage> movie(
+    Observable<MovieResultsPage> movie(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("language") String language,
@@ -86,7 +81,7 @@ public interface SearchService {
      * those wanting more of an "autocomplete" type search, set this option to 'ngram'.
      */
     @GET("search/person")
-    Call<PersonResultsPage> person(
+    Observable<PersonResultsPage> person(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("include_adult") Boolean includeAdult,
@@ -105,7 +100,7 @@ public interface SearchService {
      * an "autocomplete" type search, set this option to 'ngram'.
      */
     @GET("search/tv")
-    Call<TvResultsPage> tv(
+    Observable<TvResultsPage> tv(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("language") String language,
