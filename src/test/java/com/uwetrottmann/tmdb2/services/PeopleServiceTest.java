@@ -2,21 +2,15 @@ package com.uwetrottmann.tmdb2.services;
 
 import com.uwetrottmann.tmdb2.BaseTestCase;
 import com.uwetrottmann.tmdb2.TestData;
-import com.uwetrottmann.tmdb2.entities.Image;
-import com.uwetrottmann.tmdb2.entities.Person;
-import com.uwetrottmann.tmdb2.entities.PersonCastCredit;
-import com.uwetrottmann.tmdb2.entities.PersonCredits;
-import com.uwetrottmann.tmdb2.entities.PersonCrewCredit;
-import com.uwetrottmann.tmdb2.entities.PersonIds;
-import com.uwetrottmann.tmdb2.entities.PersonImages;
-import com.uwetrottmann.tmdb2.entities.PersonResultsPage;
-import com.uwetrottmann.tmdb2.entities.TaggedImagesResultsPage;
+import com.uwetrottmann.tmdb2.entities.*;
 import org.junit.Test;
-import retrofit2.Call;
+import rx.Observable;
+import rx.functions.Action1;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,118 +20,166 @@ public class PeopleServiceTest extends BaseTestCase {
 
     @Test
     public void test_summary() throws IOException, ParseException {
-        Call<Person> call = getManager().personService().summary(TestData.PERSON_ID);
-        Person person = call.execute().body();
-        assertThat(person).isNotNull();
-        assertThat(person.id).isEqualTo(TestData.PERSON_ID);
-        assertThat(TestData.PERSON_NAME).isEqualTo(TestData.PERSON_NAME);
-        assertThat(person.birthday).isEqualTo(JSON_STRING_DATE.parse("1944-05-14"));
-        assertThat(person.deathday).isNull();
-        assertThat(person.profile_path).startsWith("/").endsWith(".jpg");
-        assertThat(person.biography).isNotEmpty();
+        Observable<Person> observable = getManager().personService().summary(TestData.PERSON_ID);
+
+        observable.subscribe(new Action1<Person>() {
+            @Override
+            public void call(Person person) {
+                assertThat(person).isNotNull();
+                assertThat(person.id).isEqualTo(TestData.PERSON_ID);
+                assertThat(TestData.PERSON_NAME).isEqualTo(TestData.PERSON_NAME);
+                try {
+                    assertThat(person.birthday).isEqualTo(JSON_STRING_DATE.parse("1944-05-14"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                assertThat(person.deathday).isNull();
+                assertThat(person.profile_path).startsWith("/").endsWith(".jpg");
+                assertThat(person.biography).isNotEmpty();
+            }
+        });
     }
 
     @Test
     public void test_movie_credits() throws IOException {
-        Call<PersonCredits> call = getManager().personService().movieCredits(TestData.PERSON_ID, null);
-        PersonCredits credits = call.execute().body();
-        assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
-        assertCastCredits(credits, false);
-        assertCrewCredits(credits, false);
+        Observable<PersonCredits> observable = getManager().personService().movieCredits(TestData.PERSON_ID, null);
 
-        for (PersonCastCredit credit : credits.cast) {
-            assertThat(credit.title).isNotEmpty();
-        }
+        observable.subscribe(new Action1<PersonCredits>() {
+            @Override
+            public void call(PersonCredits credits) {
+                assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
+                assertCastCredits(credits, false);
+                assertCrewCredits(credits, false);
+
+                for (PersonCastCredit credit : credits.cast) {
+                    assertThat(credit.title).isNotEmpty();
+                }
+            }
+        });
     }
 
     @Test
     public void test_tv_credits() throws IOException {
-        Call<PersonCredits> call = getManager().personService().tvCredits(TestData.PERSON_ID, null);
-        PersonCredits credits = call.execute().body();
-        assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
-        assertCastCredits(credits, false);
+        Observable<PersonCredits> observable = getManager().personService().tvCredits(TestData.PERSON_ID, null);
 
-        for (PersonCastCredit credit : credits.cast) {
-            assertThat(credit.episode_count).isGreaterThanOrEqualTo(0);
-            assertThat(credit.name).isNotEmpty();
-        }
+        observable.subscribe(new Action1<PersonCredits>() {
+            @Override
+            public void call(PersonCredits credits) {
+                assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
+                assertCastCredits(credits, false);
+
+                for (PersonCastCredit credit : credits.cast) {
+                    assertThat(credit.episode_count).isGreaterThanOrEqualTo(0);
+                    assertThat(credit.name).isNotEmpty();
+                }
+            }
+        });
     }
 
     @Test
     public void test_combined_credits() throws IOException {
-        Call<PersonCredits> call = getManager().personService().combinedCredits(TestData.PERSON_ID, null);
-        PersonCredits credits = call.execute().body();
-        assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
-        assertCastCredits(credits, true);
-        assertCrewCredits(credits, true);
+        Observable<PersonCredits> observable = getManager().personService().combinedCredits(TestData.PERSON_ID, null);
+
+        observable.subscribe(new Action1<PersonCredits>() {
+            @Override
+            public void call(PersonCredits credits) {
+                assertThat(credits.id).isEqualTo(TestData.PERSON_ID);
+                assertCastCredits(credits, true);
+                assertCrewCredits(credits, true);
+            }
+        });
     }
 
     @Test
     public void test_external_ids() throws IOException {
-        Call<PersonIds> call = getManager().personService().externalIds(TestData.PERSON_ID);
-        PersonIds ids = call.execute().body();
-        assertThat(ids.id).isEqualTo(TestData.PERSON_ID);
-        assertThat(ids.imdb_id).isEqualTo("nm0000184");
-        assertThat(ids.freebase_id).isEqualTo("/en/george_lucas");
-        assertThat(ids.freebase_mid).isEqualTo("/m/0343h");
-        assertThat(ids.tvrage_id).isEqualTo(6490);
+        Observable<PersonIds> observable = getManager().personService().externalIds(TestData.PERSON_ID);
+
+        observable.subscribe(new Action1<PersonIds>() {
+            @Override
+            public void call(PersonIds ids) {
+                assertThat(ids.id).isEqualTo(TestData.PERSON_ID);
+                assertThat(ids.imdb_id).isEqualTo("nm0000184");
+                assertThat(ids.freebase_id).isEqualTo("/en/george_lucas");
+                assertThat(ids.freebase_mid).isEqualTo("/m/0343h");
+                assertThat(ids.tvrage_id).isEqualTo(6490);
+            }
+        });
     }
 
     @Test
     public void test_images() throws IOException {
-        Call<PersonImages> call = getManager().personService().images(TestData.PERSON_ID);
-        PersonImages images = call.execute().body();
-        assertThat(images.id).isEqualTo(TestData.PERSON_ID);
+        Observable<PersonImages> observable = getManager().personService().images(TestData.PERSON_ID);
 
-        for (Image image : images.profiles) {
-            assertThat(image.file_path).isNotEmpty();
-            assertThat(image.width).isNotNull();
-            assertThat(image.height).isNotNull();
-            assertThat(image.aspect_ratio).isGreaterThan(0);
-        }
+        observable.subscribe(new Action1<PersonImages>() {
+            @Override
+            public void call(PersonImages images) {
+                assertThat(images.id).isEqualTo(TestData.PERSON_ID);
+
+                for (Image image : images.profiles) {
+                    assertThat(image.file_path).isNotEmpty();
+                    assertThat(image.width).isNotNull();
+                    assertThat(image.height).isNotNull();
+                    assertThat(image.aspect_ratio).isGreaterThan(0);
+                }
+            }
+        });
     }
 
     @Test
     public void test_tagged_images() throws IOException {
-        Call<TaggedImagesResultsPage> call = getManager().personService().taggedImages(TestData.PERSON_ID, null, null);
-        TaggedImagesResultsPage images = call.execute().body();
-        assertThat(images.id).isEqualTo(TestData.PERSON_ID);
+        Observable<TaggedImagesResultsPage> observable = getManager().personService().taggedImages(TestData.PERSON_ID, null, null);
 
-        for (TaggedImagesResultsPage.TaggedImage image : images.results) {
-            assertThat(image.file_path).isNotEmpty();
-            assertThat(image.width).isNotNull();
-            assertThat(image.width).isGreaterThan(0);
-            assertThat(image.height).isNotNull();
-            assertThat(image.height).isGreaterThan(0);
-            assertThat(image.aspect_ratio).isGreaterThan(0);
-            assertThat(image.media).isNotNull();
-            assertThat(image.id).isNotNull();
-            assertThat(image.media_type).isNotNull();
-            assertThat(image.image_type).isNotNull();
-        }
+        observable.subscribe(new Action1<TaggedImagesResultsPage>() {
+            @Override
+            public void call(TaggedImagesResultsPage images) {
+                assertThat(images.id).isEqualTo(TestData.PERSON_ID);
+
+                for (TaggedImagesResultsPage.TaggedImage image : images.results) {
+                    assertThat(image.file_path).isNotEmpty();
+                    assertThat(image.width).isNotNull();
+                    assertThat(image.width).isGreaterThan(0);
+                    assertThat(image.height).isNotNull();
+                    assertThat(image.height).isGreaterThan(0);
+                    assertThat(image.aspect_ratio).isGreaterThan(0);
+                    assertThat(image.media).isNotNull();
+                    assertThat(image.id).isNotNull();
+                    assertThat(image.media_type).isNotNull();
+                    assertThat(image.image_type).isNotNull();
+                }
+            }
+        });
     }
 
     @Test
     public void test_popular() throws IOException {
-        Call<PersonResultsPage> call = getManager().personService().popular(null);
-        PersonResultsPage popular = call.execute().body();
+        Observable<PersonResultsPage> observable = getManager().personService().popular(null);
 
-        assertThat(popular.results.get(0).id).isNotNull();
-        assertThat(popular.results.get(0).name).isNotNull();
-        assertThat(popular.results.get(0).popularity).isPositive();
-        assertThat(popular.results.get(0).profile_path).isNotEmpty();
-        assertThat(popular.results.get(0).adult).isNotNull();
-        assertMedia(popular.results.get(0).known_for);
+        observable.subscribe(new Action1<PersonResultsPage>() {
+            @Override
+            public void call(PersonResultsPage popular) {
+                assertThat(popular.results.get(0).id).isNotNull();
+                assertThat(popular.results.get(0).name).isNotNull();
+                assertThat(popular.results.get(0).popularity).isPositive();
+                assertThat(popular.results.get(0).profile_path).isNotEmpty();
+                assertThat(popular.results.get(0).adult).isNotNull();
+                assertMedia(popular.results.get(0).known_for);
+            }
+        });
     }
 
     @Test
     public void test_latest() throws IOException {
-        Call<Person> call = getManager().personService().latest();
-        Person person = call.execute().body();
-        // Latest person might not have a complete TMDb entry, but at should least some basic properties.
-        assertThat(person).isNotNull();
-        assertThat(person.name).isNotEmpty();
-        assertThat(person.id).isPositive();
+        Observable<Person> observable = getManager().personService().latest();
+
+        observable.subscribe(new Action1<Person>() {
+            @Override
+            public void call(Person person) {
+                // Latest person might not have a complete TMDb entry, but at should least some basic properties.
+                assertThat(person).isNotNull();
+                assertThat(person.name).isNotEmpty();
+                assertThat(person.id).isPositive();
+            }
+        });
     }
 
     private void assertCastCredits(PersonCredits credits, boolean hasMediaType) {

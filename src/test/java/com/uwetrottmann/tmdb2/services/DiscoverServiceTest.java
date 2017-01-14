@@ -17,17 +17,15 @@
 package com.uwetrottmann.tmdb2.services;
 
 import com.uwetrottmann.tmdb2.BaseTestCase;
-import com.uwetrottmann.tmdb2.entities.AppendToDiscoverResponse;
-import com.uwetrottmann.tmdb2.entities.BaseResultsPage;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.entities.TmdbDate;
-import com.uwetrottmann.tmdb2.entities.TvResultsPage;
+import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.SortBy;
 import org.junit.Test;
-import retrofit2.Call;
+import rx.Observable;
+import rx.functions.Action1;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +35,7 @@ public class DiscoverServiceTest extends BaseTestCase {
 
     @Test
     public void test_discover_movie() throws IOException {
-        Call<MovieResultsPage> call = getManager().discoverService().discoverMovie(false, true, null, 1,
+        Observable<MovieResultsPage> observable = getManager().discoverService().discoverMovie(false, true, null, 1,
                 null,
                 new TmdbDate("1990-01-01"),
                 null,
@@ -50,23 +48,33 @@ public class DiscoverServiceTest extends BaseTestCase {
                 null,
                 new AppendToDiscoverResponse(10749),
                 null, null, null);
-        MovieResultsPage results = call.execute().body();
-        assertResultsPage(results);
-        assertThat(results.results).isNotEmpty();
+
+        observable.subscribe(new Action1<MovieResultsPage>() {
+            @Override
+            public void call(MovieResultsPage results) {
+                assertResultsPage(results);
+                assertThat(results.results).isNotEmpty();
+            }
+        });
     }
 
     @Test
     public void test_discover_tv() throws IOException {
-        Call<TvResultsPage> call = getManager().discoverService().discoverTv(null, null,
+        Observable<TvResultsPage> observable = getManager().discoverService().discoverTv(null, null,
                 SortBy.VOTE_AVERAGE_DESC,
                 null, null, null,
                 new AppendToDiscoverResponse(18, 10765),
                 new AppendToDiscoverResponse(49),
                 new TmdbDate("2010-01-01"),
                 new TmdbDate("2014-01-01"));
-        TvResultsPage results = call.execute().body();
-        assertResultsPage(results);
-        assertThat(results.results).isNotEmpty();
+
+        observable.subscribe(new Action1<TvResultsPage>() {
+            @Override
+            public void call(TvResultsPage results) {
+                assertResultsPage(results);
+                assertThat(results.results).isNotEmpty();
+            }
+        });
     }
 
     private void assertResultsPage(BaseResultsPage results) {

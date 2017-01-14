@@ -15,6 +15,7 @@ import com.uwetrottmann.tmdb2.services.TvService;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -69,6 +70,7 @@ public class Tmdb {
     protected Retrofit.Builder retrofitBuilder() {
         return new Retrofit.Builder()
                 .baseUrl(API_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(TmdbHelper.getGsonBuilder().create()))
                 .client(okHttpClient());
     }
