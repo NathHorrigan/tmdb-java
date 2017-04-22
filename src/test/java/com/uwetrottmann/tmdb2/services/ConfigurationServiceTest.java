@@ -4,7 +4,7 @@ package com.uwetrottmann.tmdb2.services;
 import com.uwetrottmann.tmdb2.BaseTestCase;
 import com.uwetrottmann.tmdb2.entities.Configuration;
 import org.junit.Test;
-import rx.Observable;
+import io.reactivex.Observable;
 import rx.functions.Action1;
 
 import java.io.IOException;

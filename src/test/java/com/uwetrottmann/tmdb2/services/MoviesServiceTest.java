@@ -6,7 +6,7 @@ import com.uwetrottmann.tmdb2.TestData;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.AppendToResponseItem;
 import org.junit.Test;
-import rx.Observable;
+import io.reactivex.Observable;
 import rx.functions.Action1;
 
 import java.io.IOException;
@@ -298,13 +298,13 @@ public class MoviesServiceTest extends BaseTestCase {
             public void call(Videos videos) {
                 assertThat(videos).isNotNull();
                 assertThat(videos.id).isEqualTo(TestData.MOVIE_ID);
-                assertThat(videos.results.get(0).id).isNotNull();
-                assertThat(videos.results.get(0).iso_639_1).isNotNull();
-                assertThat(videos.results.get(0).key).isNotNull();
-                assertThat(videos.results.get(0).name).isNotNull();
-                assertThat(videos.results.get(0).site).isEqualTo("YouTube");
-                assertThat(videos.results.get(0).size).isNotNull();
-                assertThat(videos.results.get(0).type).isEqualTo("Trailer");
+                assertThat(videos.results.get(0).getId()).isNotNull();
+                assertThat(videos.results.get(0).getIso_639_1()).isNotNull();
+                assertThat(videos.results.get(0).getKey()).isNotNull();
+                assertThat(videos.results.get(0).getName()).isNotNull();
+                assertThat(videos.results.get(0).getSite()).isEqualTo("YouTube");
+                assertThat(videos.results.get(0).getSize()).isNotNull();
+                assertThat(videos.results.get(0).getType()).isEqualTo("Trailer");
             }
         });
     }
@@ -319,9 +319,9 @@ public class MoviesServiceTest extends BaseTestCase {
                 assertThat(translations).isNotNull();
                 assertThat(translations.id).isEqualTo(TestData.MOVIE_ID);
                 for (Translations.Translation translation : translations.translations) {
-                    assertThat(translation.name).isNotNull();
-                    assertThat(translation.iso_639_1).isNotNull();
-                    assertThat(translation.english_name).isNotNull();
+                    assertThat(translation.getName()).isNotNull();
+                    assertThat(translation.getIso_639_1()).isNotNull();
+                    assertThat(translation.getEnglish_name()).isNotNull();
                 }
             }
         });
@@ -392,7 +392,7 @@ public class MoviesServiceTest extends BaseTestCase {
                 assertThat(results.results.get(0).favorite_count).isNotNull().isGreaterThanOrEqualTo(0);
                 assertThat(results.results.get(0).item_count).isPositive();
                 assertThat(results.results.get(0).iso_639_1).isNotNull();
-                assertThat(results.results.get(0).name).isNotNull();
+                assertThat(results.results.get(0).getName()).isNotNull();
             }
         });
     }
@@ -406,8 +406,8 @@ public class MoviesServiceTest extends BaseTestCase {
             public void call(Movie movie) {
                 // Latest movie might not have a complete TMDb entry, but should at least some basic properties.
                 assertThat(movie).isNotNull();
-                assertThat(movie.id).isPositive();
-                assertThat(movie.title).isNotEmpty();
+                assertThat(movie.getId()).isPositive();
+                assertThat(movie.getTitle()).isNotEmpty();
             }
         });
     }
@@ -420,7 +420,7 @@ public class MoviesServiceTest extends BaseTestCase {
             @Override
             public void call(MovieResultsPage page) {
                 assertThat(page).isNotNull();
-                assertThat(page.results).isNotEmpty();
+                assertThat(page.getResults()).isNotEmpty();
             }
         });
     }
@@ -433,7 +433,7 @@ public class MoviesServiceTest extends BaseTestCase {
             @Override
             public void call(MovieResultsPage page) {
                 assertThat(page).isNotNull();
-                assertThat(page.results).isNotEmpty();
+                assertThat(page.getResults()).isNotEmpty();
             }
         });
     }
@@ -446,7 +446,7 @@ public class MoviesServiceTest extends BaseTestCase {
             @Override
             public void call(MovieResultsPage page) {
                 assertThat(page).isNotNull();
-                assertThat(page.results).isNotEmpty();
+                assertThat(page.getResults()).isNotEmpty();
             }
         });
     }
@@ -459,7 +459,7 @@ public class MoviesServiceTest extends BaseTestCase {
             @Override
             public void call(MovieResultsPage page) {
                 assertThat(page).isNotNull();
-                assertThat(page.results).isNotEmpty();
+                assertThat(page.getResults()).isNotEmpty();
             }
         });
 

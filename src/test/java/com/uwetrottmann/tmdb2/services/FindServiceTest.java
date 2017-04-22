@@ -5,7 +5,7 @@ import com.uwetrottmann.tmdb2.TestData;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
 import org.junit.Test;
-import rx.Observable;
+import io.reactivex.Observable;
 import rx.functions.Action1;
 
 import java.io.IOException;

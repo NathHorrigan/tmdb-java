@@ -21,7 +21,7 @@ import com.uwetrottmann.tmdb2.entities.Collection;
 import com.uwetrottmann.tmdb2.entities.Images;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import rx.Observable;
+import io.reactivex.Observable;
 import rx.functions.Action1;
 
 import java.io.IOException;
