@@ -23,7 +23,7 @@ import com.uwetrottmann.tmdb2.entities.TvResultsPage;
 import com.uwetrottmann.tmdb2.enumerations.SortBy;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface DiscoverService {
 

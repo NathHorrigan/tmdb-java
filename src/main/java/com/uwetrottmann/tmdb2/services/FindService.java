@@ -5,7 +5,7 @@ import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface FindService {
 

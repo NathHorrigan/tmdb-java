@@ -3,7 +3,7 @@ package com.uwetrottmann.tmdb2.services;
 import com.uwetrottmann.tmdb2.entities.GenreResults;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface GenreService {
 

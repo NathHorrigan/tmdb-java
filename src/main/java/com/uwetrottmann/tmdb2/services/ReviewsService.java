@@ -3,7 +3,7 @@ package com.uwetrottmann.tmdb2.services;
 import com.uwetrottmann.tmdb2.entities.Review;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface ReviewsService {
 	

@@ -2,7 +2,7 @@ package com.uwetrottmann.tmdb2.services;
 
 import com.uwetrottmann.tmdb2.entities.Configuration;
 import retrofit2.http.GET;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface ConfigurationService {
 
