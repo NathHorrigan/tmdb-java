@@ -19,6 +19,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * 
  * Helper class for easy usage of the TMDB v3 API using retrofit.
  *
  * <p>Create an instance of this class and then call any of the service methods.
